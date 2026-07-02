@@ -7,7 +7,7 @@ object Routes {
     const val DETAIL = "detail/{carId}"
     const val EDIT = "edit/{carId}"
     const val ABOUT = "about"
-    const val STATS = "stats" // added in Stage 2 (statistics / charts)
+    const val STATS = "stats"
 
     const val ARG_CAR_ID = "carId"
 

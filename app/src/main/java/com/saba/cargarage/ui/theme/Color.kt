@@ -13,7 +13,7 @@ val SlateGrey = Color(0xFF6B7690)
 val SuccessGreen = Color(0xFF3DDC84)
 val DangerRed = Color(0xFFE5484D)
 
-// Chart series colors (used by Stage 2 statistics screen).
+// Chart series colors (used by the statistics screen).
 val ChartPetrol = Color(0xFFFFC93C)
 val ChartDiesel = Color(0xFF6B7690)
 val ChartHybrid = Color(0xFF3DDC84)

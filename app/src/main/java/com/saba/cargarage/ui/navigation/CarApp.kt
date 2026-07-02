@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 /** One entry in the hamburger menu. */
 data class DrawerItem(val label: String, val icon: ImageVector, val route: String)
 
-// Top-level menu entries. Stage 2 appends the "Statistics" entry here.
+// Top-level menu entries.
 private val drawerItems = listOf(
     DrawerItem("Inventory", Icons.AutoMirrored.Filled.List, Routes.LIST),
     DrawerItem("Statistics", Icons.Filled.QueryStats, Routes.STATS),

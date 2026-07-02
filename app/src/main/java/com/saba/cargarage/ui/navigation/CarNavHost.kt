@@ -74,7 +74,6 @@ fun CarNavHost(
             AboutScreen(onOpenDrawer = onOpenDrawer)
         }
 
-        // ---- Stage 2: statistics / charts ----
         composable(Routes.STATS) {
             StatisticsScreen(viewModel = viewModel, onOpenDrawer = onOpenDrawer)
         }

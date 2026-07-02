@@ -42,7 +42,7 @@ import com.saba.cargarage.ui.theme.ChartPetrol
 import com.saba.cargarage.util.asPrice
 
 /**
- * Stage 2 feature — the analytics dashboard. Reads the live inventory from the
+ * Analytics dashboard. Reads the live inventory from the
  * shared [CarViewModel], reduces it to [CarStats] and visualises it with the
  * custom-drawn donut and bar charts.
  */
