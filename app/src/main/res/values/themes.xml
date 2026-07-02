@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base theme is intentionally minimal: all real styling happens in
+         Compose (ui/theme/Theme.kt). This only provides a splash-safe
+         Material3 shell for the Activity window. -->
+    <style name="Theme.CarGarage" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

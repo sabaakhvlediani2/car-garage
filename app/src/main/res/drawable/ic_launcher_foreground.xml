@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Simple car silhouette centered in the adaptive-icon safe zone. -->
+    <group android:scaleX="0.55" android:scaleY="0.55" android:pivotX="54" android:pivotY="54">
+        <path
+            android:fillColor="#FFC93C"
+            android:pathData="M22,58 L30,40 Q32,34 40,34 L68,34 Q76,34 78,40 L86,58 L88,58 Q92,58 92,62 L92,74 Q92,76 88,76 L84,76 Q84,84 76,84 Q68,84 68,76 L40,76 Q40,84 32,84 Q24,84 24,76 L20,76 Q16,76 16,74 L16,62 Q16,58 20,58 Z" />
+        <path
+            android:fillColor="#1B2A4A"
+            android:pathData="M36,42 L42,42 L40,54 L30,54 Z" />
+        <path
+            android:fillColor="#1B2A4A"
+            android:pathData="M48,42 L72,42 L78,54 L48,54 Z" />
+    </group>
+</vector>
