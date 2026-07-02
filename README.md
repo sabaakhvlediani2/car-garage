@@ -1,135 +1,85 @@
-# 🚗 Car Garage
+# Car Garage
 
-**Car Garage** არის ავტომობილების ინვენტარის მართვის Android აპლიკაცია, აგებული
-სრულად **Jetpack Compose**-ზე (XML layout-ისა და `findViewById`-ის გარეშე).
-აპლიკაცია საშუალებას გაძლევთ დაამატოთ, დაარედაქტიროთ, წაშალოთ და დაათვალიეროთ
-ავტოსალონის მანქანები, ხოლო მონაცემები ინახება ლოკალურ **Room** ბაზაში.
+Car Garage არის Android აპლიკაცია ავტოსალონის მანქანების სამართავად. მთლიანად Jetpack Compose-ზეა დაწერილი, ისე რომ არსად გვხვდება XML layout-ები და findViewById. მონაცემები ინახება ლოკალურად, Room-ის ბაზაში.
 
----
+## რას აკეთებს
 
-## 📋 ფუნქციონალი
+გვერდითი მენიუ (Navigation Drawer), სამი განყოფილებით: Inventory, Statistics და About.
+მანქანების სია LazyColumn-ით, სადაც ჩანს ფასი და სტატუსი — Available თუ Sold.
+მანქანის დამატება, რედაქტირება და წაშლა, ვალიდაციით.
+დეტალების გვერდი თითოეულ მანქანაზე.
+სტატისტიკის გვერდი დიაგრამებით.
 
-- **მენიუ (Navigation Drawer)** — გვერდითი მენიუ სამი განყოფილებით: Inventory,
-  Statistics და About.
-- **ლისთი (LazyColumn)** — ავტომობილების სქროლადი სია ბარათებით, ფასითა და
-  სტატუსით (Available / Sold).
-- **CRUD** — მანქანის დამატება, რედაქტირება და წაშლა ვალიდაციით.
-- **დეტალების ეკრანი** — თითოეული მანქანის სრული ინფორმაცია.
-- **სტატისტიკა (charts)** — ინვენტარის ვიზუალიზაცია ხელით დახატული დიაგრამებით
-  (იხ. „ახალი ფუნქცია" ქვემოთ).
+## დიაგრამები
 
----
+დიაგრამები:
 
-## 🆕 ახალი ფუნქცია — Custom Canvas Charts
+Donut chart — აჩვენებს მანქანების განაწილებას საწვავის ტიპის მიხედვით (drawArc-ით).
+Bar chart — აჩვენებს ინვენტარის ღირებულებას საწვავის ტიპების მიხედვით (drawRoundRect-ით), აქვს ტექსტის ლეიბლები და მცირე ანიმაცია გამოჩენისას.
 
-პროექტის განმასხვავებელი ფუნქციაა **ხელით დახატული დიაგრამები**, რომლებიც
-აგებულია პირდაპირ Compose-ის `Canvas`-ზე, მესამე მხარის ბიბლიოთეკის გარეშე —
-ანუ ყველა დიაგრამა ჩვენ თვითონ დავხატეთ:
+დიაგრამები ცოცხლდება ბაზის მონაცემებზე — როგორც კი ახალ მანქანას დაამატებ, სტატისტიკაც განახლდება.
 
-- **Donut chart** — მანქანების განაწილება საწვავის ტიპის მიხედვით (`drawArc`).
-- **Bar chart** — ინვენტარის ღირებულება საწვავის ტიპის მიხედვით (`drawRoundRect`),
-  ტექსტის ლეიბლებით native canvas-ზე და შესვლის ანიმაციით.
+## არქიტექტურა
 
-დიაგრამები რეალურ დროში ეყრდნობა ბაზის მონაცემებს — ახალი მანქანის დამატებისთანავე
-სტატისტიკა განახლდება.
+ვცადეთ MVVM-ის დაცვა:
 
----
+View (Compose ეკრანები) → ViewModel (CarViewModel) → Repository (CarRepository) → Room (CarDao / CarDatabase)
 
-## 🏛️ არქიტექტურა — MVVM
+View-ში მხოლოდ UI ხატავს და StateFlow-ს აკვირდება.
+ViewModel ინახავს UI-ის მდგომარეობას, აქ ხდება ბიზნეს ლოგიკაც.
+Repository არის შუალედური ფენა Room-სა და ViewModel-ს შორის.
+Room არის ჩვენი ერთადერთი მონაცემთა წყარო.
 
-აპლიკაცია აგებულია სუფთა **MVVM** პრინციპით:
+## რაზეა დაწერილი
 
-```
-View (Compose Screens)
-        │  observes StateFlow / calls intents
-        ▼
-   ViewModel (CarViewModel)
-        │  business logic + viewModelScope
-        ▼
-   Repository (CarRepository)
-        │  ერთიანი API
-        ▼
-   Room (CarDao → CarDatabase)
-```
-
-- **View** — Compose ეკრანები (`ui/screens`), მხოლოდ ხატავს UI-ს და აკვირდება
-  მდგომარეობას.
-- **ViewModel** — ფლობს UI-ის მდგომარეობას (`StateFlow<List<Car>>`) და მონაცემთა
-  ცვლილების ერთადერთ წერტილს.
-- **Repository** — მალავს Room-ს სუფთა ინტერფეისის მიღმა, რაც შრეებს ერთმანეთისგან
-  ხდის დამოუკიდებელს.
-- **Room** — ლოკალური SQLite ბაზა, ჭეშმარიტების ერთადერთი წყარო.
-
----
-
-## 🧰 ტექნიკური სტეკი
-
-| კომპონენტი | ტექნოლოგია |
+| რა | რაში |
 |---|---|
 | ენა | Kotlin |
 | UI | Jetpack Compose (Material 3) |
-| არქიტექტურა | MVVM (ViewModel + Repository) |
-| ბაზა | Room (SQLite) |
+| არქიტექტურა | MVVM |
+| ბაზა | Room |
 | ნავიგაცია | Navigation Compose |
-| ასინქრონულობა | Kotlin Coroutines + Flow |
-| დიაგრამები | Compose Canvas (ხელით) |
-| მინიმალური SDK | API 26 (Android 8.0) |
-| Compile SDK | API 35 |
+| ასინქრონულობა | Coroutines + Flow |
+| დიაგრამები | Compose Canvas, ხელით |
+| Min SDK | 26 (Android 8.0) |
+| Compile SDK | 35 |
 
----
-
-## 📁 პროექტის სტრუქტურა
-
-```
+## ფაილების სტრუქტურა
 app/src/main/java/com/saba/cargarage/
-├── MainActivity.kt          # Compose entry point (findViewById-ის გარეშე)
-├── CarApplication.kt        # DB + Repository-ის მიმწოდებელი
-├── data/                    # Room: Car, CarDao, CarDatabase, Repository, SeedData
-├── stats/                   # CarStats — სტატისტიკის სუფთა გამოთვლა
+├── MainActivity.kt
+├── CarApplication.kt
+├── data/          (Room: Car, CarDao, CarDatabase, Repository, SeedData)
+├── stats/         (სტატისტიკის გამოთვლები)
 ├── ui/
-│   ├── CarViewModel.kt      # MVVM ViewModel
-│   ├── theme/               # ფერები, ტიპოგრაფია, თემა
-│   ├── navigation/          # Routes, CarApp (drawer), CarNavHost
-│   ├── components/          # BarChart, DonutChart (Canvas)
-│   └── screens/             # List, AddEdit, Detail, About, Statistics
-└── util/Format.kt           # ფასისა და გარბენის ფორმატირება
-```
+│   ├── CarViewModel.kt
+│   ├── theme/
+│   ├── navigation/
+│   ├── components/   (BarChart, DonutChart)
+│   └── screens/       (List, AddEdit, Detail, About, Statistics)
+└── util/Format.kt
 
----
+## რა მოთხოვნები შესრულდა
 
-## ✅ სავალდებულო მოთხოვნების შესრულება
+მენიუ — ModalNavigationDrawer-ით
+ლისთი — LazyColumn, Inventory-ში
+MVVM — ViewModel + Repository + Room
+ბაზასთან კავშირი — Room
+ახალი ფუნქცია — თვითონ დახატული Canvas დიაგრამები
+README — ეს ფაილი
+findViewById არსად გვხვდება, 100% Compose-ია
 
-| მოთხოვნა | შესრულება |
-|---|---|
-| მენიუ | ✅ ModalNavigationDrawer |
-| ლისთი | ✅ LazyColumn (Inventory) |
-| MVVM არქიტექტურა | ✅ ViewModel + Repository + Room |
-| ბაზასთან კავშირი | ✅ Room (RealtimeDatabase/Retrofit-ის ალტერნატივა) |
-| ახალი ფუნქცია | ✅ Custom Canvas charts |
-| README | ✅ ეს ფაილი |
-| `findViewById`-ის გარეშე | ✅ 100% Jetpack Compose |
-
----
-
-## ▶️ აწყობა და გაშვება
-
-```bash
-# Debug APK-ის აწყობა
+## როგორ გავუშვათ
+bash
 ./gradlew assembleDebug
-
-# ემულატორზე / მოწყობილობაზე ინსტალაცია
 ./gradlew installDebug
-```
 
-პირველ გაშვებაზე ბაზა ავტომატურად ივსება 7 სადემონსტრაციო მანქანით.
+პირველივე გაშვებაზე ბაზა ავტომატურად ივსება 7 სადემო მანქანით.
 
----
+## ვინ რა გააკეთა
 
-## 👥 კოლაბორაცია
+პროექტზე ორნი ვმუშაობდით, ორ ეტაპად:
 
-პროექტი შესრულებულია ორ ეტაპად ორი ავტორის მიერ:
+**საბა ახვლედიანი** — საბაზისო ნაწილი: Room ბაზა, MVVM, მენიუ, ლისთი და CRUD.
+**ლაშა ხუციშვილი** — სტატისტიკის გვერდი და ხელით დახატული დიაგრამები.
 
-- **Saba Akhvlediani** — საბაზისო აპლიკაცია: Room ბაზა, MVVM, მენიუ, ლისთი და CRUD.
-- **Lasha Khutsishvili** — სტატისტიკის ეკრანი და ხელით დახატული დიაგრამები.
-
-პროექტი შესრულდა ორ ეტაპად, ცალ-ცალკე commit-ებით ორივე ავტორისგან.
+ორივემ ცალ-ცალკე commit-ები გავაკეთეთ, მაგრამ ორივე მთლიანად ჩართული ვიყავით პროცესში.
